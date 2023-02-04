@@ -1,4 +1,3 @@
-﻿
 # connect to Microsoft Graph using an App Id with a Certificate Secret
 Connect-MgGraph -ClientID AppID  -TenantId tenantID -CertificateThumbprint certificate_Thumbprint
 
