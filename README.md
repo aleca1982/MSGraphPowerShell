@@ -1,8 +1,8 @@
 # MSGraphPowerShell
 MS Graph PowerShell Code repository
 
+This repository uses Microsoft Graph PowerShell SDK
+https://learn.microsoft.com/en-us/powershell/microsoftgraph/installation?view=graph-powershell-1.0
+
 UpdateUserOnPremExtension.ps1
 This small code updates the Azure AD User OnPremisesExtensionAttributes with the values HaveDevice or DoesNotHaveDevice by evaluating the user OwnedDevice value.
-
-The goal for this code was to update the extensionAttribute1 that could afterwards be used on a Azure AD Dynamic Groups members.
-Example "(user.extensionAttribute1 -eq "DoesNotHaveDevice")" or "(user.extensionAttribute1 -eq "HaveDevice")"
