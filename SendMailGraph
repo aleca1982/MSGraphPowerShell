@@ -1,0 +1,57 @@
+
+ 
+#The Client ID from App Registrations
+$clientId = "ClientID"
+ 
+#The Tenant ID from App Registrations
+$tenantId = "TenantId"
+ 
+#The Client ID from certificates and secrets section
+$clientSecret = 'ClientSecret'
+
+$uri = "https://login.microsoftonline.com/$tenantId/oauth2/v2.0/token" 
+ 
+# Construct the body to be used in Invoke-WebRequest
+$body = @{
+    client_id     = $clientId
+    scope         = "https://graph.microsoft.com/.default"
+    client_secret = $clientSecret
+    grant_type    = "client_credentials"
+}
+ 
+# Get Authentication Token
+$tokenRequest = Invoke-WebRequest -Method Post -Uri $uri -ContentType "application/x-www-form-urlencoded" -Body $body -UseBasicParsing
+ 
+# Extract the Access Token
+$token = ($tokenRequest.Content | ConvertFrom-Json).access_token
+write-output $token
+
+
+
+$params = @"
+{
+    "message": {
+      "subject": "Email from Microsoft Graph API",
+      "body": {
+        "contentType": "HTML",
+        "content": "This Mail is sent via Microsoft"
+      },
+      "toRecipients": [
+        {
+          "emailAddress": {
+            "address": "userrecipient@contoso.com"
+          }
+        }
+      ]
+    },
+    "saveToSentItems": "false"
+  }
+"@
+    
+
+$GETURL =  "https://graph.microsoft.com/v1.0/users/usersender@contoso.com/sendMail"
+
+$method = "Post"
+
+Invoke-WebRequest -Method $method -Uri $GETURL -Body $params -Headers @{Authorization = "Bearer $token"} -ContentType "application/json" -Verbose -Debug
+
